@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="product_brand_tree" model="ir.ui.view">
+		<field name="name">Product tree view</field>
+		<field name="model">product.brand</field>
+		<field name="priority">2</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="no_of_brand" />
+				<field name="no_available_product" />
+				<field name="tag_line" />
+				<field name="active" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="product_brand_form" model="ir.ui.view">
+		<field name="name">Product Brand form view</field>
+		<field name="model">product.brand</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<group>
+							<field name="image" widget="image" />
+							<field name="name" />
+							<field name="no_of_brand" />
+						</group>
+						<group>
+							<field name="no_available_product" />
+							<field name="tag_line" />
+							<field name="active" />
+						</group>
+					</group>
+					<group>
+						<field name="description" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="product_brand_action" model="ir.actions.act_window">
+		<field name="name">Products Brand</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.brand</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem id="product_brand_product_data"
+		name="Product Brands" parent="Product.product_ept_product_menu_root" />
+
+	<menuitem id="product_brands" name="Brand"
+		action="product_brand_action" parent="product_brand_product_data" />
+</odoo>
