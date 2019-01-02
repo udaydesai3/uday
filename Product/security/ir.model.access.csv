@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+product_ept_menu_root,product.ept,model_product_ept,,1,1,1,1
+product_category_menu_root,product.category.ept,model_product_category_ept,,1,1,1,1

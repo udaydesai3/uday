@@ -1,0 +1,42 @@
+<odoo>
+	<record id="product_category_tree" model="ir.ui.view">
+		<field name="name">Product category view</field>
+		<field name="model">product.category.ept</field>
+		<field name="priority">4</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="no_of_brands" />
+				<field name="no_of_available_products" />
+				
+			</tree>
+		</field>
+	</record>
+	<record id="product_category_form" model="ir.ui.view">
+		<field name="name">Product category form</field>
+		<field name="model">product.category.ept</field>
+		<field name="priority">3</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<field name="name" />
+						<field name="no_of_brands" />
+						<field name="no_of_available_products" />
+						<field name="description" />
+					</group>					
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="product_category_action"
+		model="ir.actions.act_window">
+		<field name="name">Products category</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.category.ept</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+
+</odoo>
