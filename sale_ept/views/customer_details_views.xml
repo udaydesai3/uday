@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="product_ept_form" model="ir.ui.view">
+		<field name="name">customer form view</field>
+		<field name="model">customer.details.ept</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<field name="image" widget="image" class="oe_avatar" />
+					<div class="oe_title">
+						<label class="oe_edit_only" for="name" string="Name" />
+						<h1>
+							<field name="name" placeholder="Name" />
+						</h1>
+					</div>
+					<group>
+						<group>
+							<label for="street" string="Address" />
+							<div class="o_address_format" modifiers="{}">
+
+								<field name="street" placeholder="Street..."
+									class="o_address_street" />
+								<field name="street2" placeholder="Street 2..."
+									class="o_address_street" />
+								<field name="city" placeholder="City"
+									class="o_address_city" />
+								<field name="customer_zip" placeholder="ZIP"
+									class="o_address_zip" />
+							</div>
+							<field name="vat" placeholder="e.g. BE0477472701" />
+						</group>
+						<group>
+							<field name="phone" />
+							<field name="customer_email" />
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="customer_kanban_view" model="ir.ui.view">
+		<field name="name">Customers Kanban</field>
+		<field name="model">customer.details.ept</field>
+		<field name="arch" type="xml">
+			<kanban>
+				<field name="id" />
+				<field name="image" />
+				<templates>
+					<t t-name="kanban-box">
+						<div class="oe_kanban_global_click">
+							<div>
+								<div class="o_kanban_image">
+									<field name="image" widget="image" />
+								</div>
+								<div>
+									<div>
+										<field name="name" />
+									</div>
+									<div>
+										<field name="customer_email" />
+									</div>
+									<div>
+										<field name="phone" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="sale_ept.action_customer"
+		model="ir.actions.act_window">
+		<field name="name">Customers</field>
+		<field name="res_model">customer.details.ept</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form,kanban</field>
+		<field name="view_id" ref="sale_ept.customer_kanban_view" />
+	</record>
+
+	<!-- Parent Main Menu -->
+	<menuitem id="sale_ept_sale_menu_root" name="Sale Ept" />
+
+	<!-- Sub menu of Sale Ept -->
+	<menuitem id="sale_ept_sub_menu" name="Orders"
+		parent="sale_ept_sale_menu_root" sequence="1" />
+	
+	<menuitem id="sale_ept_quotation" name="Quotations"
+		action="action_sale_ept_quotation" parent="sale_ept_sub_menu"
+		sequence="1" />
+
+	<menuitem id="sale_ept_orders" name="Orders"
+		action="action_sale_ept_quotation" parent="sale_ept_sub_menu"
+		sequence="2" />
+
+	<menuitem id="sale_ept_sale" name="Customers"
+		action="action_customer" parent="sale_ept_sub_menu" sequence="3" />
+
+</odoo>

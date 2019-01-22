@@ -7,7 +7,6 @@
 		<field name="arch" type="xml">
 			<tree>
 				<field name="name" />
-				<field name="no_of_brand" />
 				<field name="no_available_product" />
 				<field name="tag_line" />
 				<field name="active" />
@@ -21,35 +20,81 @@
 		<field name="arch" type="xml">
 			<form>
 				<sheet>
-					<group>
-						<group>
-							<field name="image" widget="image" />
-							<field name="name" />
-							<field name="no_of_brand" />
-						</group>
-						<group>
-							<field name="no_available_product" />
-							<field name="tag_line" />
-							<field name="active" />
-						</group>
-					</group>
-					<group>
-						<field name="description" />
-					</group>
+					<div class="oe_button_box" name="button_box" modifiers="{}">
+						<button name="toggle_active" type="object"
+							class="oe_stat_button" icon="fa-archive" modifiers="{}"
+							options="{}">
+							<field name="active" widget="boolean_button"
+								options='{"terminology": "archive"}' />
+						</button>
+					</div>
+
+					<field name="image" widget="image" class="oe_avatar" />
+
+					<div class="oe_title">
+						<label class="oe_edit_only" for="name" string="Brand Name" />
+						<h1>
+							<field name="name" placeholder="Brand Name" />
+						</h1>
+					</div>
+
+					<notebook>
+						<page string="General Information" name="general_information">
+							<group>
+								<field name="no_available_product" />
+								<field name="categories_m2m_ids" widget="many2many_tags" />
+								<field name="tag_line" />
+							</group>
+							<group>
+								<field name="description" />
+							</group>
+						</page>
+					</notebook>
 				</sheet>
 			</form>
 		</field>
 	</record>
+
+	<record id="product_brand_search" model="ir.ui.view">
+		<field name="name">Product Brand</field>
+		<field name="model">product.brand</field>
+		<field name="arch" type="xml">
+			<search string="name">
+				<field name="name" string="Name" />
+				
+				<filter string="Archived" name="archive"
+					domain="[('active','=',False)]" />
+				<filter name="filter_create_date" date="create_date"
+					string="Creation Date" />
+				<group expand="0" string="Group By">
+					<filter string="active" name="state"
+						context="{'group_by':'active'}" />
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="product_brand_pivot_view" model="ir.ui.view">
+		<field name="name">Products Brand pivot</field>
+		<field name="model">product.brand</field>
+		<field name="arch" type="xml">
+			<pivot string="Products">
+				<field name="name" type="row" />
+				<field name="no_available_product" type="measure" />
+			</pivot>
+		</field>
+	</record>
+	
 	<record id="product_brand_action" model="ir.actions.act_window">
 		<field name="name">Products Brand</field>
 		<field name="type">ir.actions.act_window</field>
 		<field name="res_model">product.brand</field>
 		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
+		<field name="view_mode">tree,form,graph,pivot</field>
 	</record>
 
 	<menuitem id="product_brand_product_data"
-		name="Product Brands" parent="Product.product_ept_product_menu_root" />
+		name="Product Brands" parent="product_ept.product_ept_product_menu_root" />
 
 	<menuitem id="product_brands" name="Brand"
 		action="product_brand_action" parent="product_brand_product_data" />

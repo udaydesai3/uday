@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="product_extends_form_inherit_product_ept"
+		model="ir.ui.view">
+		<field name="name">product_extends_form_inherit_product_ept</field>
+		<field name="model">product.ept</field>
+		<field name="inherit_id" ref="product_ept.product_ept_form" />
+		<field name="arch" type="xml">
+			<data>
+				<xpath expr="//field[@name='type']" position="after">
+					<field name="is_available" />
+				</xpath>
+			</data>
+		</field>
+	</record>
+</odoo>
+                   

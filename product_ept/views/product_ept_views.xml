@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+	<record id="product_ept_tree" model="ir.ui.view">
+		<field name="name">Product tree view</field>
+		<field name="model">product.ept</field>
+		<field name="priority">2</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="price" />
+				<field name="on_hand_quantity" />
+				<!-- <field name="total_price" sum="Total Price" /> -->
+				<field name="is_salable" />
+				<field name="type" />
+				<field name="date" />
+				<field name="description" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="product_ept_form" model="ir.ui.view">
+		<field name="name">Product form view</field>
+		<field name="model">product.ept</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_button_box" name="button_box" modifiers="{}">
+						<button name="toggle_active" type="object"
+							class="oe_stat_button" icon="fa-archive" modifiers="{}"
+							options="{}">
+							<field name="active" widget="boolean_button"
+								options='{"terminology": "archive"}' />
+						</button>
+					</div>
+					<field name="image1" widget="image" class="oe_avatar" />
+					<div class="oe_title">
+						<label class="oe_edit_only" for="name" string="Product Name" />
+						<h1>
+							<field name="name" placeholder="Product Name" />
+						</h1>
+						<div name="IsSalable">
+							<div>
+								<field name="is_salable" />
+								<label for="is_salable" />
+							</div>
+						</div>
+					</div>
+					<notebook>
+						<page string="General Information" name="general_information">
+							<group>
+								<group>
+									<field name="price" />
+									<field name="on_hand_quantity" />
+									<field name="total_price" />
+								</group>
+								<group>
+									<field name="type" />
+									<field name="date" />
+								</group>
+							</group>
+							<group>
+								<field name="description" />
+							</group>
+						</page>
+						<page string="Other Details" name="other_details">
+							<group>
+								<field name="category_id" />
+								<!-- <field name="brand_id" /> -->
+							</group>
+						</page>
+					</notebook>
+				</sheet>
+				<div class="oe_chatter" modifiers="{}">
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="product_ept_kanban_view" model="ir.ui.view">
+		<field name="name">Products Kanban</field>
+		<field name="model">product.ept</field>
+		<field name="arch" type="xml">
+			<kanban>
+				<field name="id" />
+				<field name="image1" />
+				<templates>
+					<t t-name="kanban-box">
+						<div class="oe_kanban_global_click">
+							<div>
+								<div class="o_kanban_image">
+									<field name="image1" widget="image" />
+								</div>
+								<div>
+									<field name="name" />
+								</div>
+								<div>
+									<strong>
+										<field name="price" widget="monetary" />
+									</strong>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="product_ept_pivot_view" model="ir.ui.view">
+		<field name="name">Products pivot</field>
+		<field name="model">product.ept</field>
+		<field name="arch" type="xml">
+			<pivot string="Products">
+				<field name="name" type="row" />
+				<!-- <field name="total_price" type="measure" /> -->
+			</pivot>
+		</field>
+	</record>
+
+	<record id="prodcut_ept_calendar_view" model="ir.ui.view">
+		<field name="name">Products Calendar</field>
+		<field name="model">product.ept</field>
+		<field name="arch" type="xml">
+			<calendar string="Products" date_start="date">
+				<field name="date"></field>
+				<field name="price"></field>
+			</calendar>
+		</field>
+	</record>
+
+	<record id="product_category_action"
+		model="ir.actions.act_window">
+		<field name="name">Products category</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.category.ept</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form,kanban,graph,pivot</field>
+	</record>
+
+	<record id="product_ept_action" model="ir.actions.act_window">
+		<field name="name">Products</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.ept</field>
+		<field name="context">{'search_default_type':0}</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form,kanban,graph,pivot,calendar</field>
+		<field name="view_id" ref="product_ept_tree" />
+	</record>
+
+	<record id="product_ept_search" model="ir.ui.view">
+		<field name="name">Product</field>
+		<field name="model">product.ept</field>
+		<field name="arch" type="xml">
+			<search string="name">
+				<field name="name" string="Name" />
+				<field name="type" string="Type" />
+				<filter string="Archived" name="archive"
+					domain="[('active','=',False)]" />
+				<filter string="Is Salable" name="active"
+					domain="[('is_salable', '=','True')]" />
+				<filter name="filter_create_date" date="create_date"
+					string="Creation Date" />
+				<group expand="0" string="Group By">
+					<filter string="Product Type" name="type"
+						context="{'group_by':'type'}" />
+					<filter string="Date" name="date" domain="[]"
+						context="{'group_by':'date'}" />
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<!-- Parent Main Menu -->
+	<menuitem id="product_ept_product_menu_root" name="Product" />
+	<!-- parent="sale_ept.sale_ept_sale_menu_root" -->
+
+	<menuitem id="product_ept_product_data" name="Products"
+		parent="product_ept_product_menu_root" />
+
+	<menuitem id="product_ept_product_details"
+		name="Products Details" action="product_ept_action"
+		parent="product_ept_product_data" />
+
+	<menuitem id="product_category_product_data"
+		name="Products Category" action="product_category_action"
+		parent="product_ept_product_data" />
+</odoo>

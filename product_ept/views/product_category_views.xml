@@ -6,9 +6,8 @@
 		<field name="arch" type="xml">
 			<tree>
 				<field name="name" />
-				<field name="no_of_brands" />
+				<field name="no_of_brand" />
 				<field name="no_of_available_products" />
-				
 			</tree>
 		</field>
 	</record>
@@ -19,24 +18,26 @@
 		<field name="arch" type="xml">
 			<form>
 				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_view_product" type="object"
+							class="oe_stat_button" icon="fa-pencil-square-o">
+							<field name="product_count" widget="statinfo"
+								string="Products" />
+						</button>
+					</div>
 					<group>
-						<field name="name" />
-						<field name="no_of_brands" />
-						<field name="no_of_available_products" />
-						<field name="description" />
+						<group>
+							<field name="name" />
+							<field name="no_of_available_products" />
+							<field name="no_of_brand" />
+							<field name="type"/>
+						</group>
+						<group>
+							<field name="description" />
+						</group>
 					</group>					
 				</sheet>
 			</form>
 		</field>
 	</record>
-	<record id="product_category_action"
-		model="ir.actions.act_window">
-		<field name="name">Products category</field>
-		<field name="type">ir.actions.act_window</field>
-		<field name="res_model">product.category.ept</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
-
 </odoo>
