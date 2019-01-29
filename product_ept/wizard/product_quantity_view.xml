@@ -1,0 +1,19 @@
+<odoo>
+
+    <record model="ir.ui.view" id="product_quantity_wizard_form_view">
+                <field name="name">wizard.form</field>
+                <field name="model">product.ept.wizard</field>
+                <field name="arch" type="xml">
+                    <form name="Update quantity on hand">
+                        <group>
+                            <field name="product_wizard_id"/>
+                            <field name="update_on_hand_quantity"/>
+                        </group>
+                        <footer>
+                            <button name="update_onhand_quantity" string="OK" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </form>
+                </field>
+            </record>
+</odoo>

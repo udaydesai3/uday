@@ -9,13 +9,11 @@
 		<field name="arch" type="xml">
 			<tree>
 				<field name="name" />
-				<field name="price" />
-				<field name="on_hand_quantity" />
-				<!-- <field name="total_price" sum="Total Price" /> -->
 				<field name="is_salable" />
 				<field name="type" />
 				<field name="date" />
-				<field name="description" />
+				<field name="on_hand_quantity" />
+				<field name="price" sum="Total" />
 			</tree>
 		</field>
 	</record>
@@ -25,6 +23,9 @@
 		<field name="model">product.ept</field>
 		<field name="arch" type="xml">
 			<form>
+				<header>
+					<button name="action_default_on_hand_quantity" string="Update On Hand Quantity" type="object"/>
+				</header>
 				<sheet>
 					<div class="oe_button_box" name="button_box" modifiers="{}">
 						<button name="toggle_active" type="object"
@@ -33,6 +34,7 @@
 							<field name="active" widget="boolean_button"
 								options='{"terminology": "archive"}' />
 						</button>
+
 					</div>
 					<field name="image1" widget="image" class="oe_avatar" />
 					<div class="oe_title">
@@ -67,7 +69,7 @@
 						<page string="Other Details" name="other_details">
 							<group>
 								<field name="category_id" />
-								<!-- <field name="brand_id" /> -->
+								<field name="brand_id" />
 							</group>
 						</page>
 					</notebook>

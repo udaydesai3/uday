@@ -5,6 +5,7 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _name = 'sale.order.ept'
     _description = 'Sale Order EPT'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     
    
     name = fields.Char(string='Quotation Number', required=True, copy=False, readonly=True, states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
@@ -18,6 +19,7 @@ class SaleOrder(models.Model):
                               ('sale', 'Sales Order'),
                               ('cancel', 'Cancelled'),
                               ('done', 'Locked')],
+                             track_visibility='always',
                                default="draft") 
    
     @api.multi    
@@ -31,6 +33,21 @@ class SaleOrder(models.Model):
     @api.multi
     def action_cancel(self):
         return self.write({'state': 'cancel'})
+
+    @api.multi
+    def action_create_invoice(self):
+        return {
+            'name': _('Invoice Order'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'invoices.ept.wizard',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'views': [[self.env.ref('sale_ept.sale_invoices_wizard_form_view').id, 'form']]
+        }
+    @api.multi
+    def action_set_quotation(self):
+        return self.write({'state': 'draft'})
     
     @api.model
     def create(self, vals):
@@ -56,6 +73,8 @@ class SaleOrder(models.Model):
     @api.multi
     def action_unlock(self):
         self.write({'state': 'sale'})
+
+
     
 class SaleOrderLine(models.Model):
     _name = "sale.order.line.ept"
@@ -80,4 +99,12 @@ class SaleOrderLine(models.Model):
     def onchange_get_product_price(self):
         product_id = self.env['product.ept'].search([('id', '=', self.product_id.id)])
         self.update({"unit_price":product_id.price})
-        
+
+    @api.multi
+    def action_plus(self):
+        self.ordered_qty +=1
+    @api.multi
+    def action_minus(self):
+        self.ordered_qty -=1
+        if self.ordered_qty == 0:
+            raise UserError(_("You can not set 0 Quantity "))

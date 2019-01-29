@@ -1,0 +1,20 @@
+<odoo>
+
+    <record model="ir.ui.view" id="sale_invoices_wizard_form_view">
+                <field name="name">sale_invoices_wizard_form_view</field>
+                <field name="model">invoices.ept.wizard</field>
+                <field name="arch" type="xml">
+                    <form name="Invoices Order">
+                        <group>
+                            <!--<field name="down_payment_in_amount" class="oe_inline" widget="radio"/>
+                            <field name="down_payment_in_percentage" />-->
+                            <field name="down_payment_amount"/>
+                        </group>
+                        <footer>
+                            <button name="" string="Create Invoice" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </form>
+                </field>
+    </record>
+</odoo>

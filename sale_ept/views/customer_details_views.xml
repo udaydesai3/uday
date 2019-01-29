@@ -93,7 +93,7 @@
 		sequence="1" />
 
 	<menuitem id="sale_ept_orders" name="Orders"
-		action="action_sale_ept_quotation" parent="sale_ept_sub_menu"
+		action="action_sale_ept_orders" parent="sale_ept_sub_menu"
 		sequence="2" />
 
 	<menuitem id="sale_ept_sale" name="Customers"

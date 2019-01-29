@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="sale_extends_form_inherit_sales_order"
+		model="ir.ui.view">
+		<field name="name">sale_extends_form_inherit_sales_order</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form" />
+		<field name="arch" type="xml">
+			<data>
+				<xpath expr="//field[@name='partner_id']" position="after">
+					<field name="order_confirm_date" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}" />
+				</xpath>
+			</data>
+		</field>
+	</record>
+
+	<menuitem id="sale_order_cancel" name="Cancel" parent="sale.sale_order_menu"
+	action="action_orders_cancel" sequence="5"/>
+</odoo>
+

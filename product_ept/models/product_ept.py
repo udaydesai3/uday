@@ -1,4 +1,4 @@
-from odoo import models, fields,api
+from odoo import models, fields,api,_
 from odoo.exceptions import Warning ,UserError
 
 class ProductEpt(models.Model):
@@ -7,7 +7,6 @@ class ProductEpt(models.Model):
     _description="Product EPT"
     #_inherit="product.template"
     #_order="date"
-    
 #    @api.depends('price', 'on_hand_quantity')
 #    def _total_price(self):
 #        for i in self:
@@ -16,7 +15,7 @@ class ProductEpt(models.Model):
     @api.onchange('price','on_hand_quantity','type')
     def onchange_total_price(self):
         """
-        func : this method is used for calculate total price.
+        func : this method is used for calculate total price.as well as check that constraints "Product Price should be minimum 100".
         param : no parameter
         return :no return
         """
@@ -43,6 +42,30 @@ class ProductEpt(models.Model):
     @api.multi
     def unlink(self):
         return super(ProductEpt,self).unlink()
+
+    @api.multi
+    def action_default_on_hand_quantity(self):
+        """
+        func:this metho is used for to take default quantity and product name from form view and display on wizard
+        param:
+        return:
+        """
+        context = dict(self._context) or {}
+        product_id = self.env['product.ept'].browse(self.id)
+        context.update({'default_update_on_hand_quantity':product_id.on_hand_quantity,'default_product_wizard_id':product_id.id})
+
+        #_wizard_view_id = self.env.ref('product_ept.product_quantity_wizard_form_view')
+
+        return {
+            'name': _('Update On Hand Quantity'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'product.ept.wizard',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'context':  context,
+            'views': [[self.env.ref('product_ept.product_quantity_wizard_form_view').id, 'form']]
+        }
         
     image1=fields.Binary(string="Product Image",attachment=True)
     name=fields.Char(string="Product Name",help="Name",required="True")
@@ -54,6 +77,7 @@ class ProductEpt(models.Model):
     description=fields.Text(string="Description",help="Product Description")
     category_id=fields.Many2one('product.category.ept',string="Category")
     active=fields.Boolean(string="Active",help="Product is Active or not",default=True)
+    brand_id=fields.Many2one('product.brand',string="Brand",help="Brand Name")
     type = fields.Selection([('stock able', 'Stock able'), ('service', 'Service'),('consumable','Consumable')],default="stock able", string='Type',help="Product Type")
     
     """_sql_constraints = [
