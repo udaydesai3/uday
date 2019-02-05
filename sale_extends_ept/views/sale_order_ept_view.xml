@@ -15,7 +15,7 @@
 		</field>
 	</record>
 
-	<menuitem id="sale_order_cancel" name="Cancel" parent="sale.sale_order_menu"
-	action="action_orders_cancel" sequence="5"/>
+	<!--<menuitem id="sale_order_cancel" name="Cancel" parent="sale.sale_order_menu"
+	action="action_orders_cancel" sequence="5"/>-->
 </odoo>
 

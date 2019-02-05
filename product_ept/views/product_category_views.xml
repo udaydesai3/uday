@@ -17,6 +17,9 @@
 		<field name="priority">3</field>
 		<field name="arch" type="xml">
 			<form>
+				<header>
+					<button name="add_default_product" string="Add Default Product" type="object"/>
+				</header>
 				<sheet>
 					<div class="oe_button_box" name="button_box">
 						<button name="action_view_product" type="object"
@@ -35,7 +38,8 @@
 						<group>
 							<field name="description" />
 						</group>
-					</group>					
+					</group>
+					<field name="product_id"/>
 				</sheet>
 			</form>
 		</field>

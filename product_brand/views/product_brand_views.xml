@@ -27,6 +27,9 @@
 							<field name="active" widget="boolean_button"
 								options='{"terminology": "archive"}' />
 						</button>
+
+
+
 					</div>
 
 					<field name="image" widget="image" class="oe_avatar" />
@@ -44,6 +47,7 @@
 								<field name="no_available_product" />
 								<field name="categories_m2m_ids" widget="many2many_tags" />
 								<field name="tag_line" />
+								<!--<field name="product_id"/>-->
 							</group>
 							<group>
 								<field name="description" />

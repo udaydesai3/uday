@@ -25,6 +25,7 @@
 			<form>
 				<header>
 					<button name="action_default_on_hand_quantity" string="Update On Hand Quantity" type="object"/>
+					<button name="generate_excel_report" string="Generate Excel Report" type="object"/>
 				</header>
 				<sheet>
 					<div class="oe_button_box" name="button_box" modifiers="{}">
@@ -56,10 +57,12 @@
 									<field name="price" />
 									<field name="on_hand_quantity" />
 									<field name="total_price" />
+									<field name="product_barcode"/>
 								</group>
 								<group>
 									<field name="type" />
 									<field name="date" />
+									<field name="reference_id"/>
 								</group>
 							</group>
 							<group>
@@ -70,6 +73,7 @@
 							<group>
 								<field name="category_id" />
 								<field name="brand_id" />
+								<field name="product_brand"/>
 							</group>
 						</page>
 					</notebook>
@@ -115,8 +119,10 @@
 		<field name="model">product.ept</field>
 		<field name="arch" type="xml">
 			<pivot string="Products">
-				<field name="name" type="row" />
-				<!-- <field name="total_price" type="measure" /> -->
+				<field name="name"  type="row" />
+				<field name="price" string="Unit Price" type="measure" />
+				<field name="on_hand_quantity" type="measure" />
+				<field name="total_price" type="measure" />
 			</pivot>
 		</field>
 	</record>

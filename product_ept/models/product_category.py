@@ -5,10 +5,32 @@ class ProductCategory(models.Model):
     
     @api.multi
     def get_product(self):
-        """ this method is used for to calculate the total product.     """
+        """ this method is used for to calculate the total product."""
         products = self.mapped('product_id')
         self.product_count=len(products)
-        
+
+    @api.model
+    def create(self, vals):
+        product_category = super(ProductCategory, self).create(vals)
+        return product_category
+
+    @api.multi
+    def write(self, values):
+        return super(ProductCategory, self).write(values)
+
+    @api.multi
+    def unlink(self):
+        return super(ProductCategory, self).unlink()
+
+
+    def add_default_product(self):
+        record = self.browse(self.id)
+        record.update(
+            {
+                'product_id': [(4,13)]
+            }
+        )
+
     @api.multi
     def action_view_product(self):
         products = self.mapped('product_id')
@@ -29,6 +51,4 @@ class ProductCategory(models.Model):
     product_id=fields.One2many('product.ept','category_id',string="Products")
     product_count = fields.Integer(string='Product Count', compute='get_product', readonly=True)
     type = fields.Selection([('stock able', 'Stock able'), ('service', 'Service'),('consumable','Consumable')], string='Type',help="Category Type")
-    
-    
-    
+    product_type_search = fields.Many2one('product.ept',string="Product type")

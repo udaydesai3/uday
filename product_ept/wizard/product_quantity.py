@@ -13,8 +13,8 @@ class ProductQuantity(models.TransientModel):
     @api.multi
     def update_onhand_quantity(self):
         """
-        func: this method is used for to update on hand quantity
-        param: no paramater
+        func: this method is used for to update on hand quantity.
+        param: no paramater.
         return:
         """
         if self.update_on_hand_quantity <= 0:

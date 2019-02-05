@@ -20,11 +20,22 @@ class SaleOrder(models.Model):
                               ('cancel', 'Cancelled'),
                               ('done', 'Locked')],
                              track_visibility='always',
-                               default="draft") 
-   
-    @api.multi    
+                               default="draft")
+
+
+
+    @api.multi
+    @api.depends('sale_order_line_ids.product_id')
     def action_confirm(self):
-        
+        context = dict(self._context) or {}
+        product_id = self.env['sale.order.line.ept']
+        for order in self:
+            print(order)
+            for line in product_id:
+                product_id = self.env['product.ept'].browse(line.id)
+                print(line.ordered_qty)
+
+
         self.write({
             'state': 'sale',
             'confirmation_date': fields.Datetime.now()
@@ -92,7 +103,7 @@ class SaleOrderLine(models.Model):
     sub_total = fields.Float(string="Sub Total", compute="_sub_total",store=False)
     amount_total = fields.Float(string="Total", compute="_sub_total")
     
-    
+
     
     @api.multi
     @api.onchange('product_id')
